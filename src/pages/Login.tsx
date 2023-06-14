@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import mainLogo from '/main-logo.svg';
 
 function Login() {
@@ -51,11 +52,11 @@ function Login() {
               </button>
               <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
                 Don’t have an account yet?{' '}
-                <a
-                  href='register'
+                <Link
+                  to='/register'
                   className='font-medium text-primary-600 hover:underline dark:text-primary-500'>
                   Register
-                </a>
+                </Link>
               </p>
             </form>
           </div>
