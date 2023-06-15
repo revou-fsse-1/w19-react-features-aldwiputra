@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useEffect, useState } from 'react';
 import InputSkeleton from '../components/InputSkeleton';
+import { bearerAuth } from '../consts/bearerAuth';
 
 interface IFormData {
   name: string;
@@ -35,10 +36,7 @@ function EditCategory() {
   async function fetchCategory() {
     try {
       const { data } = await axios.get(`https://mock-api.arikmpt.com/api/category/${id}`, {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4Njc4NzQwMiwiZXhwIjoxNjg2ODA5MDAyfQ.CG13ON5m1eLQSqGHPaQj3yz3mPsx65xRdl2M271SKyo',
-        },
+        headers: bearerAuth,
       });
 
       setLoading(false);
@@ -62,10 +60,7 @@ function EditCategory() {
           is_active: formData.status === 'Active' ? true : false,
         },
         {
-          headers: {
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4Njc4NzQwMiwiZXhwIjoxNjg2ODA5MDAyfQ.CG13ON5m1eLQSqGHPaQj3yz3mPsx65xRdl2M271SKyo',
-          },
+          headers: bearerAuth,
         }
       );
 

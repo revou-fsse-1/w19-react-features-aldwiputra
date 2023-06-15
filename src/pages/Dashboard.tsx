@@ -4,6 +4,7 @@ import TableRow from '../components/TableRow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import TableSkeleton from '../components/TableSkeleton';
+import { bearerAuth } from '../consts/bearerAuth';
 
 type CategoryType = {
   id: string;
@@ -20,10 +21,7 @@ function Dashboard() {
   async function fetchCategories() {
     try {
       const { data } = await axios.get('https://mock-api.arikmpt.com/api/category', {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4Njc4NzQwMiwiZXhwIjoxNjg2ODA5MDAyfQ.CG13ON5m1eLQSqGHPaQj3yz3mPsx65xRdl2M271SKyo',
-        },
+        headers: bearerAuth,
       });
 
       setCategories(data.data);

@@ -1,0 +1,4 @@
+export const bearerAuth = {
+  Authorization:
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4NjgwOTMxOSwiZXhwIjoxNjg2ODMwOTE5fQ.Wv6y0HlSBE1d_pHdynQPXtjTljQjFh4BNq1pAZvxVWw',
+};
