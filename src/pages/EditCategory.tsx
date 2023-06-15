@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import InputSkeleton from '../components/InputSkeleton';
 
 interface IFormData {
   name: string;
@@ -19,6 +20,7 @@ const schema = yup
   .required();
 
 function EditCategory() {
+  const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
   const { id } = useParams();
   const {
@@ -38,6 +40,8 @@ function EditCategory() {
             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4Njc4NzQwMiwiZXhwIjoxNjg2ODA5MDAyfQ.CG13ON5m1eLQSqGHPaQj3yz3mPsx65xRdl2M271SKyo',
         },
       });
+
+      setLoading(false);
 
       reset({
         name: data.data.name,
@@ -108,66 +112,74 @@ function EditCategory() {
             </div>
             <hr className='h-px my-8 bg-gray-200 border-0 dark:bg-gray-700 scale-x-150' />
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-4 md:space-y-6' action='#'>
-              <div>
-                <label
-                  htmlFor='name'
-                  className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-                  Name
-                </label>
-                <Controller
-                  name='name'
-                  control={control}
-                  defaultValue=''
-                  render={({ field }) => (
-                    <>
-                      <input
-                        type='name'
-                        name='name'
-                        id='name'
-                        value={field.value}
-                        onChange={field.onChange}
-                        className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                        placeholder='New Category'
-                      />
-                      {errors?.name && (
-                        <p className='mt-2 text-sm text-red-600 dark:text-red-500'>
-                          {errors.name.message}
-                        </p>
-                      )}
-                    </>
-                  )}
-                />
-              </div>
+              {loading ? (
+                <InputSkeleton />
+              ) : (
+                <div>
+                  <label
+                    htmlFor='name'
+                    className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
+                    Name
+                  </label>
+                  <Controller
+                    name='name'
+                    control={control}
+                    defaultValue=''
+                    render={({ field }) => (
+                      <>
+                        <input
+                          type='name'
+                          name='name'
+                          id='name'
+                          value={field.value}
+                          onChange={field.onChange}
+                          className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          placeholder='New Category'
+                        />
+                        {errors?.name && (
+                          <p className='mt-2 text-sm text-red-600 dark:text-red-500'>
+                            {errors.name.message}
+                          </p>
+                        )}
+                      </>
+                    )}
+                  />
+                </div>
+              )}
 
-              <div>
-                <label
-                  htmlFor='status'
-                  className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-                  Status
-                </label>
-                <Controller
-                  name='status'
-                  control={control}
-                  defaultValue='Active'
-                  render={({ field }) => (
-                    <>
-                      <select
-                        id='status'
-                        onChange={field.onChange}
-                        value={field.value}
-                        className='bg-gray-50 mt-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
-                        <option value='Active'>Active</option>
-                        <option value='Inactive'>Inactive</option>
-                      </select>
-                      {errors?.status && (
-                        <p className='mt-2 text-sm text-red-600 dark:text-red-500'>
-                          {errors.status.message}
-                        </p>
-                      )}
-                    </>
-                  )}
-                />
-              </div>
+              {loading ? (
+                <InputSkeleton />
+              ) : (
+                <div>
+                  <label
+                    htmlFor='status'
+                    className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
+                    Status
+                  </label>
+                  <Controller
+                    name='status'
+                    control={control}
+                    defaultValue='Active'
+                    render={({ field }) => (
+                      <>
+                        <select
+                          id='status'
+                          onChange={field.onChange}
+                          value={field.value}
+                          className='bg-gray-50 mt-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                          <option value='Active'>Active</option>
+                          <option value='Inactive'>Inactive</option>
+                        </select>
+                        {errors?.status && (
+                          <p className='mt-2 text-sm text-red-600 dark:text-red-500'>
+                            {errors.status.message}
+                          </p>
+                        )}
+                      </>
+                    )}
+                  />
+                </div>
+              )}
 
               <button
                 type='submit'
