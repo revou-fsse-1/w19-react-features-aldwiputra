@@ -1,10 +1,29 @@
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 type TableRowProps = {
   id: string;
   name: string;
   status: boolean;
+  updateState: (id: string) => void;
 };
 
-function TableRow({ id, name, status }: TableRowProps) {
+function TableRow({ id, name, status, updateState }: TableRowProps) {
+  async function deleteCategory() {
+    try {
+      const result = await axios.delete(`https://mock-api.arikmpt.com/api/category/${id}`, {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4Njc4NzQwMiwiZXhwIjoxNjg2ODA5MDAyfQ.CG13ON5m1eLQSqGHPaQj3yz3mPsx65xRdl2M271SKyo',
+        },
+      });
+
+      updateState(id);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
       <td scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
@@ -23,10 +42,16 @@ function TableRow({ id, name, status }: TableRowProps) {
         </span>
       </td>
       <td className='px-6 py-4 text-center'>
-        <button className='mr-4 font-medium text-blue-600 dark:text-blue-500 hover:underline'>
+        <Link
+          to={`/edit/${id}`}
+          className='mr-4 font-medium text-blue-600 dark:text-blue-500 hover:underline'>
           Edit
+        </Link>
+        <button
+          onClick={deleteCategory}
+          className='font-medium text-red-600 dark:text-red-500 hover:underline'>
+          Delete
         </button>
-        <button className='font-medium text-red-600 dark:text-red-500 hover:underline'>Delete</button>
       </td>
     </tr>
   );

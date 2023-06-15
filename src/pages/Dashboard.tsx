@@ -33,6 +33,12 @@ function Dashboard() {
     }
   }
 
+  function deleteCategoryFromState(id: string) {
+    const filteredCategories = [...categories].filter(category => category.id !== id);
+
+    setCategories(filteredCategories);
+  }
+
   useEffect(() => {
     fetchCategories();
   });
@@ -93,6 +99,7 @@ function Dashboard() {
                       id={category.id}
                       name={category.name}
                       status={category.is_active}
+                      updateState={deleteCategoryFromState}
                     />
                   ))
                 )}
