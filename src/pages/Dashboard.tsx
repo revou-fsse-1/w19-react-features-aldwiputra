@@ -3,6 +3,7 @@ import mainLogo from '/main-logo.svg';
 import TableRow from '../components/TableRow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import TableSkeleton from '../components/TableSkeleton';
 
 type CategoryType = {
   id: string;
@@ -14,6 +15,7 @@ type CategoryType = {
 
 function Dashboard() {
   const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   async function fetchCategories() {
     try {
@@ -25,6 +27,7 @@ function Dashboard() {
       });
 
       setCategories(data.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -81,14 +84,18 @@ function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {categories.map(category => (
-                  <TableRow
-                    key={category.id}
-                    id={category.id}
-                    name={category.name}
-                    status={category.is_active}
-                  />
-                ))}
+                {loading ? (
+                  <TableSkeleton />
+                ) : (
+                  categories.map(category => (
+                    <TableRow
+                      key={category.id}
+                      id={category.id}
+                      name={category.name}
+                      status={category.is_active}
+                    />
+                  ))
+                )}
               </tbody>
             </table>
           </div>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import mainLogo from '/main-logo.svg';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
@@ -18,6 +18,7 @@ const schema = yup
   .required();
 
 function NewCategory() {
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -26,27 +27,26 @@ function NewCategory() {
     resolver: yupResolver(schema),
   });
 
-  function onSubmit(data: IFormData) {
-    console.log(data);
-    // try {
-    //   const { data } = await axios.post(
-    //     'https://mock-api.arikmpt.com/api/category/create',
-    //     {
-    //       name: 'Wawawiwa',
-    //       is_active: true,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization:
-    //           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4Njc4NzQwMiwiZXhwIjoxNjg2ODA5MDAyfQ.CG13ON5m1eLQSqGHPaQj3yz3mPsx65xRdl2M271SKyo',
-    //       },
-    //     }
-    //   );
+  async function onSubmit(formData: IFormData) {
+    try {
+      const { data } = await axios.post(
+        'https://mock-api.arikmpt.com/api/category/create',
+        {
+          name: formData.name,
+          is_active: formData.status === 'Active' ? true : false,
+        },
+        {
+          headers: {
+            Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4Njc4NzQwMiwiZXhwIjoxNjg2ODA5MDAyfQ.CG13ON5m1eLQSqGHPaQj3yz3mPsx65xRdl2M271SKyo',
+          },
+        }
+      );
 
-    //   console.log(data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -129,7 +129,7 @@ function NewCategory() {
                         id='status'
                         onChange={field.onChange}
                         value={field.value}
-                        className='bg-gray-50 mt-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                        className='bg-gray-50 mt-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
                         <option value='Active'>Active</option>
                         <option value='Inactive'>Inactive</option>
                       </select>
