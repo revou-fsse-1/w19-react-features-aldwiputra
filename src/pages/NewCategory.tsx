@@ -1,7 +1,54 @@
 import { Link } from 'react-router-dom';
 import mainLogo from '/main-logo.svg';
+import axios from 'axios';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+interface IFormData {
+  name: string;
+  status: string;
+}
+
+const schema = yup
+  .object({
+    name: yup.string().required(),
+    status: yup.string().required(),
+  })
+  .required();
 
 function NewCategory() {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  function onSubmit(data: IFormData) {
+    console.log(data);
+    // try {
+    //   const { data } = await axios.post(
+    //     'https://mock-api.arikmpt.com/api/category/create',
+    //     {
+    //       name: 'Wawawiwa',
+    //       is_active: true,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization:
+    //           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2MzIxZmU1LTJlNTEtNDg0YS1iYzcwLWMxM2VmY2EwYmQ5YiIsImlhdCI6MTY4Njc4NzQwMiwiZXhwIjoxNjg2ODA5MDAyfQ.CG13ON5m1eLQSqGHPaQj3yz3mPsx65xRdl2M271SKyo',
+    //       },
+    //     }
+    //   );
+
+    //   console.log(data);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  }
+
   return (
     <section className='bg-gray-50 dark:bg-gray-900'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
@@ -29,24 +76,40 @@ function NewCategory() {
                 </svg>
                 Back
               </Link>
-              <h1 className='text-xl font-bold leading-tight tracking-tight md:text-2xl'>
+              <h1 className='text-xl font-semibold leading-tight tracking-tight md:text-2xl'>
                 Add new category
               </h1>
             </div>
             <hr className='h-px my-8 bg-gray-200 border-0 dark:bg-gray-700 scale-x-150' />
-            <form className='space-y-4 md:space-y-6' action='#'>
+            <form onSubmit={handleSubmit(onSubmit)} className='space-y-4 md:space-y-6' action='#'>
               <div>
                 <label
                   htmlFor='name'
                   className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Name
                 </label>
-                <input
-                  type='name'
+                <Controller
                   name='name'
-                  id='name'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  placeholder='New Category'
+                  control={control}
+                  defaultValue=''
+                  render={({ field }) => (
+                    <>
+                      <input
+                        type='name'
+                        name='name'
+                        id='name'
+                        value={field.value}
+                        onChange={field.onChange}
+                        className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                        placeholder='New Category'
+                      />
+                      {errors?.name && (
+                        <p className='mt-2 text-sm text-red-600 dark:text-red-500'>
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </>
+                  )}
                 />
               </div>
 
@@ -56,12 +119,28 @@ function NewCategory() {
                   className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Status
                 </label>
-                <select
-                  id='status'
-                  className='bg-gray-50 mt-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
-                  <option value='Active'>Active</option>
-                  <option value='Inactive'>Inactive</option>
-                </select>
+                <Controller
+                  name='status'
+                  control={control}
+                  defaultValue='Active'
+                  render={({ field }) => (
+                    <>
+                      <select
+                        id='status'
+                        onChange={field.onChange}
+                        value={field.value}
+                        className='bg-gray-50 mt-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                        <option value='Active'>Active</option>
+                        <option value='Inactive'>Inactive</option>
+                      </select>
+                      {errors?.status && (
+                        <p className='mt-2 text-sm text-red-600 dark:text-red-500'>
+                          {errors.status.message}
+                        </p>
+                      )}
+                    </>
+                  )}
+                />
               </div>
 
               <button

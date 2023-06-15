@@ -82,7 +82,12 @@ function Dashboard() {
               </thead>
               <tbody>
                 {categories.map(category => (
-                  <TableRow id={category.id} name={category.name} status={category.is_active} />
+                  <TableRow
+                    key={category.id}
+                    id={category.id}
+                    name={category.name}
+                    status={category.is_active}
+                  />
                 ))}
               </tbody>
             </table>
