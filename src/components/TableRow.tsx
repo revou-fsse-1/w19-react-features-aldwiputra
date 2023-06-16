@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { bearerAuth } from '../const/bearerAuth';
 
 type TableRowProps = {
   id: string;
@@ -13,7 +12,7 @@ function TableRow({ id, name, status, updateState }: TableRowProps) {
   async function deleteCategory() {
     try {
       const result = await axios.delete(`https://mock-api.arikmpt.com/api/category/${id}`, {
-        headers: bearerAuth,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
       updateState(id);

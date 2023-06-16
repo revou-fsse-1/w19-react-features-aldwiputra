@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useEffect, useState } from 'react';
 import InputSkeleton from '../components/InputSkeleton';
-import { bearerAuth } from '../const/bearerAuth';
+import Spinner from '../components/Spinner';
 
 interface IFormData {
   name: string;
@@ -22,6 +22,7 @@ const schema = yup
 
 function EditCategory() {
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const {
@@ -36,7 +37,7 @@ function EditCategory() {
   async function fetchCategory() {
     try {
       const { data } = await axios.get(`https://mock-api.arikmpt.com/api/category/${id}`, {
-        headers: bearerAuth,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
       setLoading(false);
@@ -51,6 +52,8 @@ function EditCategory() {
   }
 
   async function onSubmit(formData: IFormData) {
+    setLoadingSubmit(true);
+
     try {
       const { data } = await axios.put(
         'https://mock-api.arikmpt.com/api/category/update',
@@ -60,7 +63,7 @@ function EditCategory() {
           is_active: formData.status === 'Active' ? true : false,
         },
         {
-          headers: bearerAuth,
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
 
@@ -178,8 +181,9 @@ function EditCategory() {
 
               <button
                 type='submit'
+                disabled={loadingSubmit}
                 className='w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800'>
-                Submit
+                {loadingSubmit ? <Spinner /> : 'Submit'}
               </button>
             </form>
           </div>
