@@ -4,7 +4,7 @@ import TableRow from '../components/TableRow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import TableSkeleton from '../components/TableSkeleton';
-import { bearerAuth } from '../consts/bearerAuth';
+import { bearerAuth } from '../const/bearerAuth';
 
 type CategoryType = {
   id: string;
@@ -39,7 +39,7 @@ function Dashboard() {
 
   useEffect(() => {
     fetchCategories();
-  });
+  }, []);
 
   return (
     <section className='bg-gray-50 dark:bg-gray-900'>

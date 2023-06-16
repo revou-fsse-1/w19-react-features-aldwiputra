@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useEffect, useState } from 'react';
 import InputSkeleton from '../components/InputSkeleton';
-import { bearerAuth } from '../consts/bearerAuth';
+import { bearerAuth } from '../const/bearerAuth';
 
 interface IFormData {
   name: string;

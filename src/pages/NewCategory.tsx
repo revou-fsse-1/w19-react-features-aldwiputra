@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { bearerAuth } from '../consts/bearerAuth';
+import { bearerAuth } from '../const/bearerAuth';
 
 interface IFormData {
   name: string;

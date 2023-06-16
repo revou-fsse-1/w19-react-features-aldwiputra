@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { bearerAuth } from '../consts/bearerAuth';
+import { bearerAuth } from '../const/bearerAuth';
 
 type TableRowProps = {
   id: string;
