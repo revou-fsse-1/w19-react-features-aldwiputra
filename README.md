@@ -2,7 +2,7 @@
 
 ![categorawr-banner](/public/categorawr-banner.png)
 
-This repository contains the code for the photo gallery app named Photoclub. The project is a React application built with Vite and managed with npm.
+This repository contains the code for the category list app named Categorawr. The project is a React application built with Vite and managed with pnpm.
 
 ## Try App
 
@@ -34,13 +34,13 @@ cd w19-react-features-aldwiputra
 ### Install Dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Start the Development Server
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The development server will start, and you can access the application by visiting http://localhost:5173 in your browser.
