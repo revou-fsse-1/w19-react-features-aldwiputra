@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 type TableRowProps = {
   id: string;
@@ -9,10 +10,12 @@ type TableRowProps = {
 };
 
 function TableRow({ id, name, status, updateState }: TableRowProps) {
+  const [token] = useLocalStorage('token');
+
   async function deleteCategory() {
     try {
-      const result = await axios.delete(`https://mock-api.arikmpt.com/api/category/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      await axios.delete(`https://mock-api.arikmpt.com/api/category/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       updateState(id);

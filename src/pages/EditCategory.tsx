@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { useEffect, useState } from 'react';
 import InputSkeleton from '../components/InputSkeleton';
 import Spinner from '../components/Spinner';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 interface IFormData {
   name: string;
@@ -23,6 +24,7 @@ const schema = yup
 function EditCategory() {
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
+  const [token] = useLocalStorage('token');
   const navigate = useNavigate();
   const { id } = useParams();
   const {
@@ -37,7 +39,7 @@ function EditCategory() {
   async function fetchCategory() {
     try {
       const { data } = await axios.get(`https://mock-api.arikmpt.com/api/category/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       setLoading(false);
@@ -55,7 +57,7 @@ function EditCategory() {
     setLoadingSubmit(true);
 
     try {
-      const { data } = await axios.put(
+      await axios.put(
         'https://mock-api.arikmpt.com/api/category/update',
         {
           id: id,
@@ -63,7 +65,7 @@ function EditCategory() {
           is_active: formData.status === 'Active' ? true : false,
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -74,8 +76,11 @@ function EditCategory() {
   }
 
   useEffect(() => {
-    fetchCategory();
-  }, []);
+    if (token) {
+      fetchCategory();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return (
     <section className='bg-gray-50 dark:bg-gray-900'>

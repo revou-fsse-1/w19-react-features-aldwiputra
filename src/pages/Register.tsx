@@ -35,7 +35,7 @@ function Register() {
   async function onSubmit(formData: IFormData) {
     setSubmitLoading(true);
     try {
-      const { data } = await axios.post('https://mock-api.arikmpt.com/api/user/register', {
+      await axios.post('https://mock-api.arikmpt.com/api/user/register', {
         name: formData.name,
         email: formData.email,
         password: formData.password,

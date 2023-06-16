@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useState } from 'react';
 import Spinner from '../components/Spinner';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 interface IFormData {
   name: string;
@@ -21,6 +22,7 @@ const schema = yup
 
 function NewCategory() {
   const navigate = useNavigate();
+  const [token] = useLocalStorage('token');
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const {
     control,
@@ -34,14 +36,14 @@ function NewCategory() {
     setLoadingSubmit(true);
 
     try {
-      const { data } = await axios.post(
+      await axios.post(
         'https://mock-api.arikmpt.com/api/category/create',
         {
           name: formData.name,
           is_active: formData.status === 'Active' ? true : false,
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 

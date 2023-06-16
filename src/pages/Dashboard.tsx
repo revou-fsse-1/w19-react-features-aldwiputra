@@ -4,6 +4,7 @@ import TableRow from '../components/TableRow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import TableSkeleton from '../components/TableSkeleton';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 type CategoryType = {
   id: string;
@@ -16,11 +17,12 @@ type CategoryType = {
 function Dashboard() {
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [token] = useLocalStorage('token');
 
   async function fetchCategories() {
     try {
       const { data } = await axios.get('https://mock-api.arikmpt.com/api/category', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       setCategories(data.data);
@@ -37,8 +39,11 @@ function Dashboard() {
   }
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    if (token) {
+      fetchCategories();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return (
     <section className='bg-gray-50 dark:bg-gray-900'>
