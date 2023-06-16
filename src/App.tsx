@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import NewCategory from './pages/NewCategory';
 import EditCategory from './pages/EditCategory';
 import PrivateLayout from './pages/layouts/PrivateLayout';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/add' element={<NewCategory />} />
           <Route path='/edit/:id' element={<EditCategory />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   );
